@@ -5,5 +5,5 @@ characters/
 *.pyc
 armors/
 *.pyc
-.idea/
+./.idea/
 *.*
