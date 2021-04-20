@@ -1,0 +1,1 @@
+TI CHTO TUT DELAYESH!??!?!?
