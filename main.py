@@ -61,7 +61,7 @@ characters[1].hit("body")
 
 print(characters[0] - characters[1])
 print(characters[1] - characters[0])
-
+print('Hello')
 # Help
 # TypeOfArmor("gold",3,"В глаза отсвечивает!")
 # TypeOfWeapon("gold",3,"В глаза отсвечивает!")
