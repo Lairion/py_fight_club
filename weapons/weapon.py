@@ -4,8 +4,8 @@ class Weapon:
         self.damage = damage
         self.hand_coef = hand_coef
 
-    def hit(self):
-        pass
+    def hit(self, damage):
+        return damage // self.hand_coef + damage
 
     def add_modification(self, mod):
         pass

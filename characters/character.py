@@ -35,10 +35,24 @@ class Character:
     def take_weapon(self, weapon):
         self.weapon = weapon
 
-    def check_damage(self, other):
-        if self.hited == other.defenced:
-            return self.damage_dict[self.hited] - other.defence_dict[other.defenced]
+    def calc_damage(self):
+        if self.weapon:
+            return self.weapon.hit(self.damage_dict[self.hited])
         return self.damage_dict[self.hited]
+
+    def calc_defence(self):
+        if self.armor:
+            return self.armor.defence_point()
+        return 0
+
+    def check_damage(self, other):
+        damage = self.calc_damage()
+        if self.hited == other.defenced:
+            damage -= other.defence_dict[other.defenced]
+        damage -= other.calc_defence()
+        if damage < 0:
+            return 0
+        return damage
 
     def __str__(self):
         return f"Name:{self.name} Armor:{self.armor} hp:{self.hp}"
