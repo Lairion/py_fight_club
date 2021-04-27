@@ -25,7 +25,6 @@ modifications_of_weapon = {
     'fire': 150,
     'poison': 100,
 }
-
 types_of_armor = {
     'fabric': [0,'На такую нельзя надеется...'],
     'leather': [1, 'В ней жарко и неудобно'],
@@ -39,6 +38,15 @@ types_of_weapon = {
     'sword': [30,'Тяжелый но мощный'],
     'katana': [20, 'Легкая но хрупкая'],
 }
+
+
+def mod(name, points, type):
+    if type == 'armor':
+        return ModificationOfArmor(name, points)
+    elif type == 'weapon':
+        return ModificationOfWeapon(name, points)
+
+
 armor_mods = [ModificationOfArmor(k, v) for k,v in modifications_of_armor.items()]
 armor_types = [TypeOfArmor(k, *v) for k,v in types_of_armor.items()]
 weapon_mods = [ModificationOfWeapon(k, v) for k, v in modifications_of_weapon.items()]
@@ -59,20 +67,12 @@ characters[1].hit("body")
 
 print(characters[0] - characters[1])
 print(characters[1] - characters[0])
-print('Hello')
-# Help
-# TypeOfArmor("gold",3,"В глаза отсвечивает!")
-# TypeOfWeapon("gold",3,"В глаза отсвечивает!")
-# Help
-# ModificationOfArmor("Furniture of shadow",1)
-# ModificationOfWeapon("Stone of shadow", 200)
-# hero_weapon = Weapon("Sword of Freeze", 400, 2)
-# hero_armor = Armor("Shealder", "gold")
-# # hero_armor2 = Armor("Shealder2", "lead")
-# hero = Character("Peter")
-# hero.suite_armor(hero_armor)
-# hero.take_weapon(hero_weapon)
-# hero.armor.hint()
-# hero.suite_armor(hero_armor2)
-# hero.armor.hint()
-# print(hero.weapon.name)
+
+
+armor_modifications = []
+print("Armor mods:")
+cnt = -1
+for name, protect in modifications_of_armor.items():
+    cnt += 1
+    armor_modifications.append(mod(name, protect, "armor"))
+    print(f'Name: "{name}", Protect points: "{protect}"; {armor_modifications[cnt]}')
