@@ -24,6 +24,12 @@ modifications_of_armor = {
 modifications_of_weapon = {
     'fire': 15,
     'poison': 10,
+    "Magic pollination": 17,
+    "Mesmerized by Vasya": 5,
+    "Silver knife, which can kill everything": 23,
+    "knife from uncle Stepan": 7,
+    "God with you": 48,
+    "Little help with your superstrong": 45,
 }
 
 types_of_armor = {
