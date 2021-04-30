@@ -22,8 +22,8 @@ modifications_of_armor = {
     'impenetrability': 300,
 }
 modifications_of_weapon = {
-    'fire': 150,
-    'poison': 100,
+    'fire': 15,
+    'poison': 10,
 }
 
 types_of_armor = {
@@ -53,6 +53,8 @@ characters[0].suite_armor(Armor("Megasuite", armor_types[-1]))
 characters[1].suite_armor(Armor("Megaleather", armor_types[1]))
 characters[0].take_weapon(Weapon("Takagero", weapon_types[1], 2))
 characters[1].take_weapon(Weapon("Excalibre", weapon_types[0], 3))
+characters[0].weapon.add_modification(weapon_mods[1])
+characters[1].weapon.add_modification(weapon_mods[0])
 
 characters[0].hit("head")
 characters[0].defence("head")
