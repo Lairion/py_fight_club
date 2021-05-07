@@ -79,9 +79,24 @@ characters[0].defence(
 characters[1].defence(choice(part_of_body))
 characters[1].hit(choice(part_of_body))
 
-print(characters[0] - characters[1])
-print(characters[1] - characters[0])
-print('Hello')
+# Add displaying Hero information And Enemy information using print(s)
+
+# add code here
+
+# Add cicle(while). That cicle should finish if somebody dead.
+# Show who win!
+
+# add code here
+
+
+
+
+
+
+
+# Help
+# print(characters[0] - characters[1])
+# print(characters[1] - characters[0])
 # Help
 # TypeOfArmor("gold",3,"В глаза отсвечивает!")
 # TypeOfWeapon("gold",3,"В глаза отсвечивает!")
@@ -92,8 +107,6 @@ print('Hello')
 # hero_armor = Armor("Shealder", "gold")
 # # hero_armor2 = Armor("Shealder2", "lead")
 # hero = Character("Peter")
-# hero.suite_armor(hero_armor)
-# hero.take_weapon(hero_weapon)
 # hero.armor.hint()
 # hero.suite_armor(hero_armor2)
 # hero.armor.hint()
