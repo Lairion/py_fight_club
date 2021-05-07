@@ -61,6 +61,7 @@ characters[0].take_weapon(Weapon("Takagero", weapon_types[1], 2))
 characters[1].take_weapon(Weapon("Excalibre", weapon_types[0], 3))
 characters[0].weapon.add_modification(weapon_mods[1])
 characters[1].weapon.add_modification(weapon_mods[0])
+print(characters[0].weapon)
 
 characters[0].hit("head")
 characters[0].defence("head")

@@ -18,6 +18,5 @@ class Weapon:
     def characteristic_of_modification(self):
         return {i.name: i.damage for i in self.modifications}
 
-
     def __str__(self):
-        return f"Name:{self.name} Hit:{self.damage} Modification:{self.modifications} Tipe of weapon: {self.types}"
+        return f"Name:{self.name} Hit:{self.full_damage} Modification:{self.modifications} Type of weapon: {self.weapon_type}"
