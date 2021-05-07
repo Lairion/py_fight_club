@@ -8,5 +8,8 @@ class Armor:
     def hint(self):
         print(self.armor_type.hint)
 
+    def defence_point(self):
+        return self.armor_type.protection_points
+
     def __str__(self):
         return self.name

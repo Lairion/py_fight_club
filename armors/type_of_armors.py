@@ -4,3 +4,4 @@ class TypeOfArmor:
         self.type_of_armor = type_of_armor
         self.protection_points = protection_points
         self.hint = hint
+        self.hp = 0

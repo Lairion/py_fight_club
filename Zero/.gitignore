@@ -1,9 +1,0 @@
-./test.py
-weapons/
-*.pyc
-characters/
-*.pyc
-armors/
-*.pyc
-./.idea/
-*.*
