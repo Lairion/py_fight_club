@@ -55,7 +55,7 @@ class Character:
         return damage
 
     def __str__(self):
-        return f"Name:{self.name} Armor:{self.armor} hp:{self.hp}"
+        return f"Name:{self.name} Armor:{self.armor} hp:{self.hp} hit:{self.hited} defence:{self.defenced} "
 
     def __sub__(self, other):
         other.hp = other.hp - self.check_damage(other)

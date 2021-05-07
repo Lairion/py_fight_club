@@ -1,3 +1,5 @@
+# Random
+from random import choice
 # Character import
 from characters import Character
 
@@ -7,6 +9,7 @@ from armors import Armor, ModificationOfArmor, TypeOfArmor
 # Weapon imports
 from weapons import Weapon, TypeOfWeapon, ModificationOfWeapon
 
+part_of_body = list(Character.damage_dict.keys())
 modifications_of_armor = {
     'chestplate': 150,
     'leggings': 100,
@@ -61,12 +64,20 @@ characters[0].take_weapon(Weapon("Takagero", weapon_types[1], 2))
 characters[1].take_weapon(Weapon("Excalibre", weapon_types[0], 3))
 characters[0].weapon.add_modification(weapon_mods[1])
 characters[1].weapon.add_modification(weapon_mods[0])
-print(characters[0].weapon)
-
-characters[0].hit("head")
-characters[0].defence("head")
-characters[1].defence("leg")
-characters[1].hit("body")
+dict_of_part = {str(i):part_of_body[i] for i in range(len(part_of_body))}
+option_descr = [f"{k}-{v}" for k, v in dict_of_part.items()]
+characters[0].hit(
+    dict_of_part[
+        input("HIT.Input one of next options:\n"+"\n".join(option_descr))
+    ]
+)
+characters[0].defence(
+    dict_of_part[
+        input("DEFENCE.Input one of next options:\n"+"\n".join(option_descr))
+    ]
+)
+characters[1].defence(choice(part_of_body))
+characters[1].hit(choice(part_of_body))
 
 print(characters[0] - characters[1])
 print(characters[1] - characters[0])
