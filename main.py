@@ -101,15 +101,14 @@ while characters[0].hp > 0 and characters[1].hp > 0:
     characters[1] - characters[0]
     for entity in characters:
         print(entity)
+
+# Check for the winner
+
 else:
-    if characters[0].hp > characters[1].hp:
-        winner = 0
-    elif characters[0].hp == characters[1].hp:
-        winner = None
+    if characters[0].hp == characters[1].hp:
+        print('\nThe winner is... Nobody. The game is tie')
     else:
-        winner = 1
-    if winner is not None:
-        print(f'\nThe winner is... {characters[winner].name}!!!')
+        print(f'\nThe winner is... {characters[0].__gt__(characters[1]).name}!!!')
 
 
 # add code here
