@@ -79,14 +79,39 @@ characters[0].take_weapon(Weapon("Takagero", weapon_types[1], 2))
 characters[1].take_weapon(Weapon("Excalibre", weapon_types[0], 3))
 characters[0].weapon.add_modification(weapon_mods[1])
 characters[1].weapon.add_modification(weapon_mods[0])
+<<<<<<< HEAD
 dict_of_part = {str(i): part_of_body[i] for i in range(len(part_of_body))}
 option_descr = [f"{k}-{v}" for k, v in dict_of_part.items()]
 
 # <<<<<<< HEAD
+=======
+dict_of_part = {str(i):part_of_body[i] for i in range(len(part_of_body))}
+option_descr = [f"{k}-{v}" for k, v in dict_of_part.items()] #what does it mean?
+characters[0].hit(
+    dict_of_part[
+        input("HIT.Input one of next options:\n"+"\n".join(option_descr))
+    ]
+)
+characters[0].defence(
+    dict_of_part[
+        input("DEFENCE.Input one of next options:\n"+"\n".join(option_descr))
+    ]
+)
+characters[1].defence(choice(part_of_body))
+characters[1].hit(choice(part_of_body))
+
+# Add displaying Hero information And Enemy information using print(s)
+
+#also dn how to check hp?
+#print(characters[0], characters[1])
+
+# add code here
+>>>>>>> 80a49e10b1893cc53403d34d995c67f432e6e7fc
 
 # Add cicle(while). That cicle should finish if somebody dead.
 # Show who win!
 
+<<<<<<< HEAD
 while not characters[0].hp <= 0 or not characters[1].hp <= 0:
     characters[0].hit(
         dict_of_part
@@ -103,6 +128,41 @@ while not characters[0].hp <= 0 or not characters[1].hp <= 0:
     characters[1].defence(choice(part_of_body))
     characters[0] - characters[1]
     characters[1] - characters[0]
+=======
+while True:
+    if (characters[0].hp > 0 or characters[1].hp > 0):
+        characters[0].hit(
+            dict_of_part[
+                input("HIT.Input one of next options:\n"+"\n".join(option_descr))
+            ]
+        )
+        characters[0].defence(
+            dict_of_part[
+                input("DEFENCE.Input one of next options:\n"+"\n".join(option_descr))
+            ]
+        )
+        characters[1].defence(choice(part_of_body))
+        characters[1].hit(choice(part_of_body))
+
+        #characters[0].hp -= damage_dict.dict_of_part
+        print(characters[0].check_damage)
+
+        #print(characters[0].damage, characters[1].damage)
+
+        #print("")
+
+    else:
+        print(characters[0], characters[1])
+        if characters[0].hp > characters[1].hp:
+            print("You win")
+        else:
+            print("You  lose")
+
+
+# add code here
+
+#where we calc hp? how code it to change? we have to check it, but how?
+>>>>>>> 80a49e10b1893cc53403d34d995c67f432e6e7fc
 
     # stats
     for entity in characters:
