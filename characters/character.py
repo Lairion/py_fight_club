@@ -61,4 +61,11 @@ class Character:
     def __sub__(self, other):
         other.hp = other.hp - self.check_damage(other)
         if other.hp < 0: other.hp = 0
-        return str(self)
+        return self
+
+    # Overide __gt__
+    # return biggest Character
+
+
+    #*Overide __lt__
+    #return smallest Character
