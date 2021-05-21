@@ -9,6 +9,9 @@ from armors import Armor, ModificationOfArmor, TypeOfArmor
 # Weapon imports
 from weapons import Weapon, TypeOfWeapon, ModificationOfWeapon
 
+def option_descr(lst):
+    return [f"{i} - {lst[i]}" for i in range(len(lst))]
+
 part_of_body = list(Character.damage_dict.keys())
 modifications_of_armor = {
     'chestplate': 150,
@@ -68,48 +71,71 @@ armor_types = [TypeOfArmor(k, *v) for k, v in types_of_armor.items()]
 weapon_mods = [ModificationOfWeapon(k, v) for k, v in modifications_of_weapon.items()]
 weapon_types = [TypeOfWeapon(k, *v) for k, v in types_of_weapon.items()]
 
-characters = [
-    Character("You"),
-    Character("Enemy")
+enemies = [
+    Character("Enemy1"),
+    Character("Enemy2")
 ]
 
-characters[0].suite_armor(Armor("Megasuite", armor_types[-1]))
-characters[1].suite_armor(Armor("Megaleather", armor_types[1]))
-characters[0].take_weapon(Weapon("Takagero", weapon_types[1], 2))
-characters[1].take_weapon(Weapon("Excalibre", weapon_types[0], 3))
-characters[0].weapon.add_modification(weapon_mods[1])
-characters[1].weapon.add_modification(weapon_mods[0])
-dict_of_part = {str(i): part_of_body[i] for i in range(len(part_of_body))}
-option_descr = [f"{k}-{v}" for k, v in dict_of_part.items()]
-# Add cicle(while). That cicle should finish if somebody dead.
-# Show who win!
+character = Character("You")
+#####
+print(*option_descr(armor_types), sep="\n")
+arm_type = int(input("input armor type:"))
+character.suite_armor(
+    Armor(input("Input name of your armor:"),
+    armor_types[arm_type]
+))
+print(*option_descr(weapon_types), sep="\n")
+wpn_type = int(input("input weapon type:"))
+character.take_weapon(Weapon(input("Input name of your weapon:"), weapon_types[wpn_type], int(input("Input coeficient:"))))
+print(character.armor)
+print(character.weapon)
+# 1. Add modifications use same princip like previous code.
+# 2. Use random count of modifications
 
-while characters[0].hp > 0 and characters[1].hp > 0:
-    characters[0].hit(
-        dict_of_part[
-            input("HIT.Input one of next options:\n"+"\n".join(option_descr)+"\nInput:")
-        ]
-    )
-    characters[0].defence(
-        dict_of_part[
-            input("DEFENCE.Input one of next options:\n"+"\n".join(option_descr)+"\nInput:")
-        ]
-    )
-    characters[1].defence(choice(part_of_body))
-    characters[1].hit(choice(part_of_body))
-    characters[0] - characters[1]
-    characters[1] - characters[0]
-    for entity in characters:
-        print(entity)
-else:
-    if characters[0].hp > characters[1].hp:
-        winner = 0
-    elif characters[0].hp == characters[1].hp:
-        winner = None
-    else:
-        winner = 1
-    if winner is not None:
-        print(f'\nThe winner is... {characters[winner].name}!!!')
+# ctrl+?
+# Override this part of code using cicle and random
+# enemies[0].suite_armor(Armor("Megaleather", armor_types[0]))
+# enemies[1].suite_armor(Armor("Megaleather", armor_types[0]))
+# enemies[0].take_weapon(Weapon("Takagero", weapon_types[1], 2))
+# enemies[1].take_weapon(Weapon("Takagero", weapon_types[1], 2))
+# enemies[0].weapon.add_modification(weapon_mods[1])
+# enemies[1].weapon.add_modification(weapon_mods[0])
+######
+# adapt this code for fighting character and enemies[0]
+# while character.hp > 0 and enemies[0].hp > 0:
+#     characters[0].hit(
+#         dict_of_part[
+#             input("HIT.Input one of next options:\n"+"\n".join(option_descr(part_of_body))+"\nInput:")
+#         ]
+#     )
+#     characters[0].defence(
+#         dict_of_part[
+#             input("DEFENCE.Input one of next options:\n"+"\n".join(option_descr)+"\nInput:")
+#         ]
+#     )
+#     characters[1].defence(choice(part_of_body))
+#     characters[1].hit(choice(part_of_body))
+#     characters[0] - characters[1]
+#     characters[1] - characters[0]
+#     for entity in characters:
+#         print(entity)
+# else:
+#     winner = characters[0] > characters[1]
+#     if winner:
+#         print("Winner:", winner.name )
+#         print("Loser:", (characters[0] < characters[1]).name)
+#     else:
+#         print("No winner")
+######
+
+    # if characters[0].hp > characters[1].hp:
+    #     winner = 0
+    # elif characters[0].hp == characters[1].hp:
+    #     winner = None
+    # else:
+    #     winner = 1
+    # if winner is not None:
+    #     print(f'\nThe winner is... {characters[winner].name}!!!')
 
 
 # add code here

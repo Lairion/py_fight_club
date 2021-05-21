@@ -63,9 +63,19 @@ class Character:
         if other.hp < 0: other.hp = 0
         return self
 
-    # Overide __gt__
+    def __gt__(self,other):
+        if self.hp > other.hp:
+            return self
+        elif self.hp == other.hp:
+            return None
+        return other
     # return biggest Character
 
 
-    #*Overide __lt__
+    def __lt__(self,other):
+        if self.hp < other.hp:
+            return self
+        elif self.hp == other.hp:
+            return None
+        return other
     #return smallest Character

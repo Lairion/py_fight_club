@@ -5,3 +5,6 @@ class TypeOfArmor:
         self.protection_points = protection_points
         self.hint = hint
         self.hp = 0
+
+    def __str__(self):
+        return self.type_of_armor
