@@ -12,4 +12,4 @@ class Armor:
         return self.armor_type.protection_points
 
     def __str__(self):
-        return self.name
+        return f"Name of armor:{self.name} Hint:{self.armor_type.hint} Modification:{self.armor_type.protection_points} Type of armor: {self.armor_type}"

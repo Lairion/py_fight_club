@@ -19,4 +19,4 @@ class Weapon:
         return {i.name: i.damage for i in self.modifications}
 
     def __str__(self):
-        return f"Name:{self.name} Hit:{self.full_damage} Modification:{self.modifications} Type of weapon: {self.weapon_type}"
+        return f"Name of weapon :{self.name} Hit:{self.full_damage} Modification:{self.modifications} Type of weapon: {self.weapon_type}"
