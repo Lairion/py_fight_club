@@ -11,20 +11,15 @@ class Character:
         "leg": 10,
         "hand": 10,
     }
-    defence_dict = {
-        "head": 50,
-        "body": 30,
-        "leg": 10,
-        "hand": 10,
-    }
+
     defenced = None
-    hited = None
+    attacked = None
 
     def __init__(self, name):
         self.name = name
 
     def hit(self, part_of_body):
-        self.hited = part_of_body
+        self.attacked = part_of_body
 
     def defence(self, part_of_body):
         self.defenced = part_of_body
@@ -37,40 +32,49 @@ class Character:
 
     def calc_damage(self):
         if self.weapon:
-            return self.weapon.hit(self.damage_dict[self.hited])
-        return self.damage_dict[self.hited]
+            return self.weapon.hit(self.damage_dict[self.attacked])
+        return self.damage_dict[self.attacked]
 
     def calc_defence(self):
         if self.armor:
-            return self.armor.defence_point()
+            return self.armor.armor_type.protect_points
         return 0
 
     def check_damage(self, other):
         damage = self.calc_damage()
-        if self.hited == other.defenced:
-            damage -= other.defence_dict[other.defenced]
+        if self.attacked == other.defenced:
+            damage -= other.damage_dict[other.defenced]
         damage -= other.calc_defence()
         if damage < 0:
             return 0
         return damage
 
     def __str__(self):
-        return f'{self.name}: HP = "{self.hp}",\nArmor = "{self.armor.name}",\nHited part of body: ' \
-              f'"{self.hited}",\nDefenced part of body: "{self.defenced}"'
+        return f'{self.name}: ' \
+               f'HP = "{self.hp}"; ' \
+               f'Armor = "{self.armor.name}" ({self.armor.protect_points_print()} def. points); ' \
+               f'Weapon = "{self.weapon.name}" ({self.weapon.full_damage} damage); ' \
+               f'Attacked part of body: "{self.attacked}"; ' \
+               f'Defenced part of body: "{self.defenced}".'
 
     def __sub__(self, other):
+        # -
         other.hp = other.hp - self.check_damage(other)
         if other.hp < 0: other.hp = 0
         return self
 
-    def __gt__(self, other):
-        # Overide __gt__
-        # return the biggest character
+    def __gt__(self,other):
+        # >
+        if self.hp > other.hp:
+            return self
+        elif self.hp == other.hp:
+            return None
+        return other
 
-        return self if other.hp < self.hp else other
-
-    def __lt__(self, other):
-        # *Overide __lt__
-        # return smallest Character
-
-        return self if other.hp > self.hp else other
+    def __lt__(self,other):
+        # <
+        if self.hp < other.hp:
+            return self
+        elif self.hp == other.hp:
+            return None
+        return other

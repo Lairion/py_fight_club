@@ -4,3 +4,6 @@ class TypeOfWeapon:
         self.name = name
         self.damage = damage
         self.hint = hint
+
+    def __str__(self):
+        return self.name

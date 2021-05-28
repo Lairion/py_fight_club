@@ -1,5 +1,7 @@
 # Random
 from random import choice
+from random import randint
+from os.path import exists
 # Character import
 from characters import Character
 
@@ -9,142 +11,202 @@ from armors import Armor, ModificationOfArmor, TypeOfArmor
 # Weapon imports
 from weapons import Weapon, TypeOfWeapon, ModificationOfWeapon
 
-part_of_body = list(Character.damage_dict.keys())
-modifications_of_armor = {
-    'chestplate': 150,
-    'leggings': 100,
-    'helmet': 90,
-    'boots': 80,
-    'furniture of shadow': 200,
-    'armadillo': 100,
-    'resist!': 20,
-    'fortune': 15,
-    'aggression': 30,
-    'Unfire': 300,
-    'antidote': 250,
-    'impenetrability': 300,
-}
-modifications_of_weapon = {
-    'fire': 15,
-    'poison': 10,
-    "Magic pollination": 17,
-    "Mesmerized by Vasya": 5,
-    "Silver knife, which can kill everything": 23,
-    "Knife from uncle Stepan": 7,
-    "God with you": 48,
-    "Little help with your superstrong": 45,
-}
-types_of_armor = {
-    'fabric': [0, 'На такую нельзя надеется...'],
-    'leather': [1, 'В ней жарко и неудобно'],
-    'tin': [2, 'Такая себе, но на первое время хватит'],
-    'copper': [2, 'Защищает плохо, но красивая'],
-    'gold': [3, 'В глаза отсвечивает!'],
-    'lead': [3, 'Броня как броня'],
-    'iron': [4, 'В ней жарко, но хотябы защищает']
-}
-types_of_weapon = {
-    'sword': [30, 'Тяжелый но мощный'],
-    'katana': [20, 'Легкая но хрупкая'],
-}
+# json
+import json
+
+def create_choice_list(lst):
+    print(*[f"[{i}] -- {str(lst[i]).capitalize()}" for i in range(len(lst))], sep='\n')
 
 
-def mod(name, points, type):
-    if type == 'armor':
+def mod(name, points, model):
+    if model == 'arm_mod':
         return ModificationOfArmor(name, points)
-    elif type == 'weapon':
+    elif model == 'wpn_mod':
         return ModificationOfWeapon(name, points)
+    elif model == 'arm_armor':
+        return TypeOfArmor(name, points[0], points[1])
+    elif model == 'wpn_weapon':
+        return TypeOfWeapon(name, points[0], points[1])
 
 
-armor_mods = [ModificationOfArmor(k, v) for k, v in modifications_of_armor.items()]
+def create_player():
+    # Inputs
+    # Input number of armor type
+    create_choice_list(arm_types)
+    arm_type_input = int(input("\nInput number of armor type: "))
+    arm_name_input = input("Input name of your armor: ")
+    character.suite_armor(Armor(arm_name_input, arm_types[arm_type_input]))
 
-armor_modifications = []
-cnt = -1
-for name, protect in modifications_of_armor.items():
-    cnt += 1
-    armor_modifications.append(mod(name, protect, "armor"))
+    # Input number of weapon type
+    create_choice_list(wpn_types)
+    wpn_type_input = int(input("\nInput number of weapon type: "))
+    wpn_name_input = input("Input name of your weapon: ")
+    hand_coeff_input = int(input("Input hand coefficient: "))
+    character.take_weapon(Weapon(wpn_name_input, wpn_types[wpn_type_input], hand_coeff_input))
 
-armor_types = [TypeOfArmor(k, *v) for k, v in types_of_armor.items()]
-weapon_mods = [ModificationOfWeapon(k, v) for k, v in modifications_of_weapon.items()]
-weapon_types = [TypeOfWeapon(k, *v) for k, v in types_of_weapon.items()]
+    # Input number of armor mod
+    create_choice_list(arm_mods)
+    arm_mod_input = int(input("\nInput number of armor mod: "))
+    character.armor.add_modification(arm_mods[arm_mod_input])
 
-characters = [
-    Character("You"),
-    Character("Enemy")
+    # Input number of weapon mod
+    create_choice_list(wpn_mods)
+    wpn_mod_input = int(input("\nInput number of armor mod: "))
+    character.weapon.add_modification(wpn_mods[wpn_mod_input])
+
+    data = {
+        'armor_type': arm_type_input,
+        'armor_mod': arm_mod_input,
+        'armor_name': arm_name_input,
+        'weapon_type': wpn_type_input,
+        'weapon_mod': wpn_mod_input,
+        'weapon_name': wpn_name_input,
+        'hand_coeff': hand_coeff_input
+    }
+
+    with open('save.json', 'w') as outfile:
+        json.dump(data, outfile)
+
+
+parts_of_body = list(Character.damage_dict.keys())
+
+arm_mods = [
+    mod('Furniture of shadow', 2, 'arm_mod'),
+    mod('Armadillo', 3, 'arm_mod'),
+    mod('Resistance', 2, 'arm_mod'),
+    mod('Fortune', 3, 'arm_mod'),
+    mod('Aggression', 2, 'arm_mod'),
+    mod('Fire resistance', 2, 'arm_mod'),
+    mod('Antidote', 1, 'arm_mod'),
+    mod('Impenetrability', 2, 'arm_mod')
+]
+wpn_mods = [
+    mod('Fire', 7, 'wpn_mod'),
+    mod('Poison', 8, 'wpn_mod'),
+    mod("Magic pollination", 12, 'wpn_mod'),
+    mod("Enchanted", 8, 'wpn_mod'),
+    mod("Everything killer", 15, 'wpn_mod'),
+    mod("Uncle Stepan's knife", 5, 'wpn_mod'),
+    mod("God with you", 21, 'wpn_mod'),
+    mod("Small superstrong help", 19, 'wpn_mod')
+]
+arm_types = [
+    mod('fabric', [0, 'На такую нельзя надеется...'], 'arm_armor'),
+    mod('leather', [1, 'В ней жарко и неудобно'], 'arm_armor'),
+    mod('tin', [2, 'Такая себе, но на первое время хватит'], 'arm_armor'),
+    mod('copper', [2, 'Защищает плохо, но красивая'], 'arm_armor'),
+    mod('gold', [3, 'В глаза отсвечивает!'], 'arm_armor'),
+    mod('lead', [3, 'Броня как броня'], 'arm_armor'),
+    mod('iron', [4, 'В ней жарко, но хотя бы защищает'], 'arm_armor')
+]
+wpn_types = [
+    mod('Sword', [30, 'Тяжелый но мощный'], 'wpn_weapon'),
+    mod('Katana', [20, 'Легкая но хрупкая'], 'wpn_weapon')
+]
+arm_names = [
+    'Leather',
+    'Sunshine armor',
+    'Shadow night',
+    'Desert sea',
+    'Demon slayer'
+]
+wpn_names = [
+    'Sword',
+    'Katana'
+]
+enemy_names = [
+    'Rick Astley',
+    'Rick',
+    'Tom',
+    'George',
+    'Morty',
+    'John',
+    'Sans',
+    'Jack',
+    'Theodore',
+    'Gabriel',
+    'Leo',
+    'Lincoln',
+    'Christopher',
+    'Andrew',
+    'Thomas',
+    'Rayan',
+    'Jeremiah',
+    'Ezekiel',
+    'Roman',
+    'Easton',
+    'Miles',
+    'Robert ',
+    'Jameson ',
+    'Nicholas',
+    'Greyson'
 ]
 
-characters[0].suite_armor(Armor("Megasuite", armor_types[-1]))
-characters[1].suite_armor(Armor("Megaleather", armor_types[1]))
-characters[0].take_weapon(Weapon("Takagero", weapon_types[1], 2))
-characters[1].take_weapon(Weapon("Excalibre", weapon_types[0], 3))
-characters[0].weapon.add_modification(weapon_mods[1])
-characters[1].weapon.add_modification(weapon_mods[0])
-dict_of_part = {str(i): part_of_body[i] for i in range(len(part_of_body))}
-option_descr = [f"{k}-{v}" for k, v in dict_of_part.items()]
-# Add cicle(while). That cicle should finish if somebody dead.
-# Show who win!
+enemies = [
+    Character(choice(enemy_names)),
+    Character(choice(enemy_names))
+]
+character = Character("You")
 
-while characters[0].hp > 0 and characters[1].hp > 0:
-    characters[0].hit(
-        dict_of_part[
-            input("HIT.Input one of next options:\n"+"\n".join(option_descr)+"\nInput:")
-        ]
-    )
-    characters[0].defence(
-        dict_of_part[
-            input("DEFENCE.Input one of next options:\n"+"\n".join(option_descr)+"\nInput:")
-        ]
-    )
-    characters[1].defence(choice(part_of_body))
-    characters[1].hit(choice(part_of_body))
-    characters[0] - characters[1]
-    characters[1] - characters[0]
-    for entity in characters:
-        print(entity)
+if exists('save.json'):
+    load = input('Do you want to load a saved player? (y/n): ')
 
-# Check for the winner
+    if load == 'y':
+        with open('save.json') as json_file:
+            data = json.load(json_file)
 
-else:
-    if characters[0].hp == characters[1].hp:
-        print('\nThe winner is... Nobody. The game is tie')
+            # Application
+            character.suite_armor(Armor(data['armor_name'], arm_types[data['armor_type']]))
+            character.take_weapon(Weapon(data['weapon_name'], wpn_types[data['weapon_type']], data['hand_coeff']))
+            character.armor.add_modification(arm_mods[data['armor_mod']])
+            character.weapon.add_modification(wpn_mods[data['weapon_mod']])
     else:
-        print(f'\nThe winner is... {characters[0].__gt__(characters[1]).name}!!!')
+        create_player()
+else:
+    create_player()
 
+for enemy in enemies:
+    enemy.suite_armor(Armor(choice(arm_names), choice(arm_types)))
+    enemy.take_weapon(Weapon(choice(wpn_names), choice(wpn_types), randint(1, 10)))
+    enemy.weapon.add_modification(choice(wpn_mods))
+    enemy.armor.add_modification(choice(arm_mods))
 
-# add code here
+while character.hp > 0 and (enemies[0].hp + enemies[1].hp) > 0:
 
-#where we calc hp? how code it to change? we have to check it, but how?
+    # Player's hit part input
+    create_choice_list(parts_of_body)
+    character.hit(parts_of_body[int(input("\nHIT. Input number of options: "))])
+
+    # Player's defence part input
+    create_choice_list(parts_of_body)
+    character.defence(parts_of_body[int(input("\nDEF. Input number of options: "))])
+
+    # enemy attacks player and player attacks enemy
+    for enemy in enemies:
+        enemy.hit(choice(parts_of_body))
+        enemy.defence(choice(parts_of_body))
+        character - enemy
+        enemy - character
 
     # stats
+    print('\n')
+    print(enemies[0])
+    print(enemies[1])
+    print(character)
+    print('\n')
 
-
-    # check for a winner
-    # if characters[0].hp == 0:
-    #     winner = 1
-    #     break
-    # elif characters[1].hp == 0:
-    #     winner = 0
-    #     break
-
-
-
-
-# Help
-# print(characters[0] - characters[1])
-# print(characters[1] - characters[0])
-#
-# TypeOfArmor("gold",3,"В глаза отсвечивает!")
-# TypeOfWeapon("gold",3,"В глаза отсвечивает!")
-#
-# ModificationOfArmor("Furniture of shadow",1)
-# ModificationOfWeapon("Stone of shadow", 200)
-# hero_weapon = Weapon("Sword of Freeze", 400, 2)
-# hero_armor = Armor("Shealder", "gold")
-# hero_armor2 = Armor("Shealder2", "lead")
-# hero = Character("Peter")
-# hero.armor.hint()
-# hero.suite_armor(hero_armor2)
-# hero.armor.hint()
-# print(hero.weapon.name)
-
-# >>>>>>> bceb0463d186604a8b5c63337283d33717a7d7e2
+else:
+    winner = character > enemies[0]
+    if winner is None:
+        print("Winner is... Nobody.")
+    else:
+        winner = winner > enemies[1]
+        if winner is None:
+            print("Winner is... Nobody.")
+        else:
+            if winner.name == character.name:
+                print("Winner is... You!")
+                print(f"Losers are {enemies[0].name}, {enemies[1].name}")
+            else:
+                print(f"Winner are... {enemies[0].name}, {enemies[1].name}!")
+                print(f"Loser is You")

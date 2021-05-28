@@ -5,4 +5,4 @@ class ModificationOfWeapon:
         self.damage = damage
 
     def __repr__(self):
-        return "hdb"
+        return self.name
