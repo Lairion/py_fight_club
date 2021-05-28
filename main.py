@@ -1,5 +1,5 @@
 # Random
-from random import choice
+from random import choice, randint
 # Character import
 from characters import Character
 
@@ -68,7 +68,7 @@ for name, protect in modifications_of_armor.items():
     armor_modifications.append(mod(name, protect, "armor"))
 
 armor_types = [TypeOfArmor(k, *v) for k, v in types_of_armor.items()]
-# armor_mods = [ModificationOfArmor(k, v) for k, v in armor_modifications.items()]
+#armor_mods = [ModificationOfArmor(k, v) for k, v in armor_modifications.items()]
 weapon_mods = [ModificationOfWeapon(k, v) for k, v in modifications_of_weapon.items()]
 weapon_types = [TypeOfWeapon(k, *v) for k, v in types_of_weapon.items()]
 
@@ -79,7 +79,8 @@ enemies = [
 
 character = Character("You")
 #####
-
+#DZ
+#Save input information to .json file
 print(*option_descr(armor_types), sep="\n")
 arm_type = int(input("Input armor type:"))
 character.suite_armor(Armor(input("Input name of your armor:"), armor_types[arm_type]))
@@ -102,37 +103,50 @@ print(character.armor)
 # 1. Add modifications use same princip like previous code.
 # 2. Use random count of modifications
 
-
-
-
-
-
-# ctrl+?
-# Override this part of code using cicle and random
-# while character.hp>0:
-#     enemies[0].suite_armor(Armor(choice(types_of_armor)))
-#     enemies[0].take_weapon(Weapon(choice(types_of_weapon), choice(modifications_of_weapon)))
-#     enemies[1].suite_armor(Armor(choice(types_of_armor)))
-#     enemies[1].take_weapon(Weapon(choice(types_of_weapon), choice(modifications_of_weapon)))
-#     print(enemies[1].weapon, enemies[1].armor)
-#     print(enemies[0].weapon, enemies[0].armor)
-######
-
-
-
-# adapt this code for fighting character and enemies[0]
+# name_of_weapon = [
+#     "Victoria",
+#     "Desteny",
+#     "Dragon slayer"
+# ]
+# name_of_armor = [
+#     "Victoria",
+#     "Desteny",
+#     "Dragon slayer"
+# ]
+#
+#
+#
+#
+#
+# # ctrl+?
+# # Override this part of code using cicle and random
+# for enemy in enemies:
+#      enemy.suite_armor(Armor(choice(name_of_armor), choice(armor_types)))
+#      enemy.take_weapon(Weapon(choice(name_of_weapon),choice(weapon_types), randint(0,5)))
+#      enemy.weapon.add_modification(choice(weapon_mods))
+#      print(enemy)
+# ######
+#
+#
+#
+# # adapt this code for fighting character and enemies[0]
 # dict_of_part = {str(i):part_of_body[i] for i in range(len(part_of_body))}
-# option_descr = [f"{k}-{v}" for k, v in dict_of_part.items()]
+# # option_descr = [f"{k}-{v}" for k, v in dict_of_part.items()]
 # while character.hp > 0 and enemies[0].hp > 0:
 #     character.hit(
 #         dict_of_part[
-#             input("HIT.Input one of next options:\n"+"\n".join(option_descr)+"\nInput:")
+#             input("HIT.Input one of next options:\n"+"\n".join(option_descr(part_of_body))+"\nInput:")
 #         ]
 #     )
-#     character - enemies[0]#[input("HIT.Input one of enemies:\n"+"\n".join(enemies)+"\nInput:")]
+#     character.defence(
+#         dict_of_part[
+#             input("DEFENCE.Input one of next options:\n"+"\n".join(option_descr(part_of_body))+"\nInput:")
+#         ]
+#     )
+#     enemies[0].defence(choice(part_of_body))
+#     enemies[0].hit(choice(part_of_body))
+#     character - enemies[0]
 #     enemies[0] - character
-#     for entity in character:
-#         print(entity)
 # else:
 #     winner = character > enemies[0]
 #     if winner:
