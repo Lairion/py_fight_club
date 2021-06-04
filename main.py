@@ -29,6 +29,7 @@ def create_player(data, arm_types, wpn_types, arm_mods, wpn_mods):
 
 parts_of_body = list(Character.damage_dict.keys())
 
+# Move that data to json file
 types_of_armor = {
     'fabric': [0, 'На такую нельзя надеется...'],
     'leather': [1, 'В ней жарко и неудобно'],
@@ -42,6 +43,7 @@ types_of_weapon = {
     'sword': [30, 'Тяжелый но мощный'],
     'katana': [20, 'Легкая но хрупкая'],
 }
+####
 arm_names = [
     'Leather',
     'Sunshine armor',
@@ -96,11 +98,10 @@ enemies = [
 ]
 load = input('Do you want to load a saved player? (y/n): ')
 if load == 'y':
+    # HM select file in folder 'save' and choose the player json
     if exists('save.json'):
-        with open('save.json') as json_file:
-            data = json.load(json_file)
-            # Application
-            create_player(data, armor_types, weapon_types, armor_mods, weapon_mods)
+        # Application
+        character = create_player(json.load(open()), armor_types, weapon_types, armor_mods, weapon_mods)
 else:
     data = {}
     data.update({'character' : input("Input player name: ")})
@@ -145,16 +146,9 @@ while character.hp > 0 and (enemies[0].hp + enemies[1].hp) > 0:
 
 else:
     winner = character > enemies[0]
-    if winner is None:
-        print("Winner is... Nobody.")
+    winner = character > enemies[0]
+    if winner:
+        print("Winner:", winner.name )
+        print("Loser:", (character < enemies[0]).name)
     else:
-        winner = winner > enemies[1]
-        if winner is None:
-            print("Winner is... Nobody.")
-        else:
-            if winner.name == character.name:
-                print("Winner is... You!")
-                print(f"Losers are {enemies[0].name}, {enemies[1].name}")
-            else:
-                print(f"Winner are... {enemies[0].name}, {enemies[1].name}!")
-                print(f"Loser is You")
+        print("No winner")
