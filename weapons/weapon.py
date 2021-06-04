@@ -1,6 +1,6 @@
 class Weapon:
 
-    modifications = []
+    modification = None
 
     def __init__(self, name, type_of_weapon, hand_coef):
         self.name = name
@@ -13,10 +13,10 @@ class Weapon:
 
     def add_modification(self, mod):
         self.full_damage += mod.damage
-        self.modifications.append(mod)
-
-    def characteristic_of_modification(self):
-        return {i.name: i.damage for i in self.modifications}
+        self.modification = mod.name
 
     def __str__(self):
-        return f"Name of weapon :{self.name} Hit:{self.full_damage} Modification:{self.modifications} Type of weapon: {self.weapon_type}"
+        return f'Name: "{self.name}";\n' \
+               f'Damage: "{self.full_damage}";\n' \
+               f'Modification: "{self.modification}";\n' \
+               f'Type: "{self.weapon_type}".'
