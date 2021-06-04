@@ -13,7 +13,6 @@ from weapons import Weapon, TypeOfWeapon, ModificationOfWeapon
 def create_choice_list(lst):
     print(*[f"[{i}] -- {str(lst[i]).capitalize()}" for i in range(len(lst))], sep='\n')
 
-
 def create_player(data, arm_types, wpn_types, arm_mods, wpn_mods):
     # Inputs
     # Input number of armor type
@@ -26,23 +25,11 @@ def create_player(data, arm_types, wpn_types, arm_mods, wpn_mods):
         json.dump(data, outfile)
     return character
 
-
 parts_of_body = list(Character.damage_dict.keys())
 
 # Move that data to json file
-types_of_armor = {
-    'fabric': [0, 'На такую нельзя надеется...'],
-    'leather': [1, 'В ней жарко и неудобно'],
-    'tin': [2, 'Такая себе, но на первое время хватит'],
-    'copper': [2, 'Защищает плохо, но красивая'],
-    'gold': [3, 'В глаза отсвечивает!'],
-    'lead': [3, 'Броня как броня'],
-    'iron': [4, 'В ней жарко, но хотябы защищает']
-}
-types_of_weapon = {
-    'sword': [30, 'Тяжелый но мощный'],
-    'katana': [20, 'Легкая но хрупкая'],
-}
+types_of_armor = json.load(open('armors/armor_types/list_of_types.json'))
+types_of_weapon = json.load(open('weapons/weapon_types/list_of_types.json'))
 ####
 arm_names = [
     'Leather',
@@ -71,7 +58,7 @@ enemy_names = [
     'Christopher',
     'Andrew',
     'Thomas',
-    'Rayan',
+    'Ryan',
     'Jeremiah',
     'Ezekiel',
     'Roman',
@@ -99,9 +86,8 @@ enemies = [
 load = input('Do you want to load a saved player? (y/n): ')
 if load == 'y':
     # HM select file in folder 'save' and choose the player json
-    if exists('save.json'):
-        # Application
-        character = create_player(json.load(open()), armor_types, weapon_types, armor_mods, weapon_mods)
+    if exists('save/save.json'):
+        character = create_player(json.load(open('save/save.json')), armor_types, weapon_types, armor_mods, weapon_mods)
 else:
     data = {}
     data.update({'character' : input("Input player name: ")})
@@ -122,27 +108,21 @@ for enemy in enemies:
 
 while character.hp > 0 and (enemies[0].hp + enemies[1].hp) > 0:
 
-    # Player's hit part input
     create_choice_list(parts_of_body)
-    character.hit(parts_of_body[int(input("\nHIT. Input number of options: "))])
+    character.hit(parts_of_body[int(input("HIT. Input number of options: "))])
 
-    # Player's defence part input
     create_choice_list(parts_of_body)
-    character.defence(parts_of_body[int(input("\nDEF. Input number of options: "))])
+    character.defence(parts_of_body[int(input("DEF. Input number of options: "))])
 
-    # enemy attacks player and player attacks enemy
     for enemy in enemies:
         enemy.hit(choice(parts_of_body))
         enemy.defence(choice(parts_of_body))
         character - enemy
         enemy - character
 
-    # stats
-    print('\n')
     print(enemies[0])
     print(enemies[1])
     print(character)
-    print('\n')
 
 else:
     winner = character > enemies[0]

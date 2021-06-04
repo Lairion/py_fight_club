@@ -1,7 +1,0 @@
-28.05.2021:
-+Added armor modifications
-+Added save mechanic
-+Reworked interface
-+Added enemy random choice
-+Added more armor, weapon and enemy names
-;

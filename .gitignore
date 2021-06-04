@@ -1,5 +1,3 @@
 env
 *.pyc
-test.py
-.idea
-save.json
+save/save.json
