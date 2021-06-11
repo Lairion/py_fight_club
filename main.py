@@ -29,21 +29,6 @@ def create_player(data, arm_types, wpn_types, arm_mods, wpn_mods):
 
 parts_of_body = list(Character.damage_dict.keys())
 
-# Move that data to json file
-types_of_armor = {
-    'fabric': [0, 'На такую нельзя надеется...'],
-    'leather': [1, 'В ней жарко и неудобно'],
-    'tin': [2, 'Такая себе, но на первое время хватит'],
-    'copper': [2, 'Защищает плохо, но красивая'],
-    'gold': [3, 'В глаза отсвечивает!'],
-    'lead': [3, 'Броня как броня'],
-    'iron': [4, 'В ней жарко, но хотябы защищает']
-}
-types_of_weapon = {
-    'sword': [30, 'Тяжелый но мощный'],
-    'katana': [20, 'Легкая но хрупкая'],
-}
-####
 arm_names = [
     'Leather',
     'Sunshine armor',
@@ -82,16 +67,22 @@ enemy_names = [
     'Nicholas',
     'Greyson'
 ]
-armor_types = [TypeOfArmor(k, *v) for k, v in types_of_armor.items()]
+armor_types = [
+    TypeOfArmor(k, v) for k, v in json.load(
+        open('armors/armor_types/list_of_types.json')).items()
+]
 armor_mods = [
-    ModificationOfArmor(k, v) for k, v in  json.load(
+    ModificationOfArmor(k, v) for k, v in json.load(
         open('armors/armor_mods/list_of_modification.json')).items()
 ]
 weapon_mods = [
     ModificationOfWeapon(k, v) for k, v in json.load(
         open('weapons/weapon_mods/list_of_modification.json')).items()
 ]
-weapon_types = [TypeOfWeapon(k, *v) for k, v in types_of_weapon.items()]
+weapon_types = [
+    TypeOfWeapon(k, v) for k, v in json.load(
+        open('weapons/weapons_types/list_of_types.json')).items()
+]
 enemies = [
     Character(choice(enemy_names)),
     Character(choice(enemy_names))
@@ -146,7 +137,7 @@ while character.hp > 0 and (enemies[0].hp + enemies[1].hp) > 0:
 
 else:
     winner = character > enemies[0]
-    winner = character > enemies[0]
+    winner = character > enemies[1]
     if winner:
         print("Winner:", winner.name )
         print("Loser:", (character < enemies[0]).name)
