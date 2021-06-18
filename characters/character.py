@@ -42,9 +42,11 @@ class Character:
 
     def check_damage(self, other):
         damage = self.calc_damage()
+
         if self.attacked == other.defenced:
             damage -= other.damage_dict[other.defenced]
         damage -= other.calc_defence()
+        print(damage)
         if damage < 0:
             return 0
         return damage
@@ -59,14 +61,19 @@ class Character:
 
     def __sub__(self, other):
         # -
+
         other.hp = other.hp - self.check_damage(other)
         if other.hp < 0: other.hp = 0
         return self
 
     def __gt__(self,other):
-        if self.hp > other.hp:
+        if isinstance(other,int):
+            other_hp = other
+        else:
+            other_hp = other.hp
+        if self.hp > other_hp:
             return self
-        elif self.hp == other.hp:
+        elif self.hp == other_hp:
             return None
         return other
     # return biggest Character

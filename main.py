@@ -3,6 +3,7 @@ import json
 # Random
 from random import choice, randint
 from os.path import exists
+from pathlib import Path
 # Character import
 from characters import Character
 # Armor imports
@@ -10,11 +11,13 @@ from armors import Armor, ModificationOfArmor, TypeOfArmor
 # Weapon imports
 from weapons import Weapon, TypeOfWeapon, ModificationOfWeapon
 
+SAVE_FOLDER =  r'characters/save/'
+
 def create_choice_list(lst):
     print(*[f"[{i}] -- {str(lst[i]).capitalize()}" for i in range(len(lst))], sep='\n')
 
 
-def create_player(data, arm_types, wpn_types, arm_mods, wpn_mods):
+def create_player(data, arm_types, wpn_types, arm_mods, wpn_mods, create=True):
     # Inputs
     # Input number of armor type
     character = Character(data["character"])
@@ -22,8 +25,9 @@ def create_player(data, arm_types, wpn_types, arm_mods, wpn_mods):
     character.take_weapon(Weapon(data['weapon_name'], wpn_types[data['weapon_type']], data['hand_coeff']))
     character.armor.add_modification(arm_mods[data['armor_mod']])
     character.weapon.add_modification(wpn_mods[data['weapon_mod']])
-    with open(f'characters/save/{data["character"]}.json', 'w') as outfile:
-        json.dump(data, outfile)
+    if not create:
+        with open(f'{SAVE_FOLDER}{data["character"]}.json', 'w') as outfile:
+            json.dump(data, outfile)
     return character
 
 
@@ -90,9 +94,18 @@ enemies = [
 load = input('Do you want to load a saved player? (y/n): ')
 if load == 'y':
     # HM select file in folder 'save' and choose the player json
-    if exists('save.json'):
-        # Application
-        character = create_player(json.load(open()), armor_types, weapon_types, armor_mods, weapon_mods)
+    path_to_characters = Path(SAVE_FOLDER)
+    list_of_file = [child for child in path_to_characters.iterdir()]
+    create_choice_list([child.name for child in list_of_file])
+    index = int(input("Choose your save: "))
+    character = create_player(
+        json.load(open(list_of_file[index])),
+        armor_types,
+        weapon_types,
+        armor_mods,
+        weapon_mods,
+        create=False,
+    )
 else:
     data = {}
     data.update({'character' : input("Input player name: ")})
@@ -111,7 +124,7 @@ for enemy in enemies:
     enemy.weapon.add_modification(choice(weapon_mods))
     enemy.armor.add_modification(choice(armor_mods))
 
-while character.hp > 0 and (enemies[0].hp + enemies[1].hp) > 0:
+while character.hp > 0 and sum([enemy.hp for enemy in enemies]) > 0:
 
     # Player's hit part input
     create_choice_list(parts_of_body)
@@ -125,6 +138,7 @@ while character.hp > 0 and (enemies[0].hp + enemies[1].hp) > 0:
     for enemy in enemies:
         enemy.hit(choice(parts_of_body))
         enemy.defence(choice(parts_of_body))
+        print("Hello")
         character - enemy
         enemy - character
 
@@ -136,10 +150,11 @@ while character.hp > 0 and (enemies[0].hp + enemies[1].hp) > 0:
     print('\n')
 
 else:
-    winner = character > enemies[0]
-    winner = character > enemies[1]
-    if winner:
+    winner = character > sum([enemy.hp for enemy in enemies])
+
+    if isinstance(winner, Character):
         print("Winner:", winner.name )
-        print("Loser:", (character < enemies[0]).name)
+    elif isinstance(winner, int):
+        print("Winner", max([enemy for enemy in enemies]))
     else:
         print("No winner")
