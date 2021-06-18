@@ -68,8 +68,8 @@ enemy_names = [
     'Greyson'
 ]
 armor_types = [
-    TypeOfArmor(k, v) for k, v in json.load(
-        open('armors/armor_types/list_of_types.json')).items()
+    TypeOfArmor(k, *v) for k, v in json.load(
+        open('armors/armor_types/list_of_types.json', "r", encoding="utf-8")).items()
 ]
 armor_mods = [
     ModificationOfArmor(k, v) for k, v in json.load(
@@ -80,8 +80,8 @@ weapon_mods = [
         open('weapons/weapon_mods/list_of_modification.json')).items()
 ]
 weapon_types = [
-    TypeOfWeapon(k, v) for k, v in json.load(
-        open('weapons/weapons_types/list_of_types.json')).items()
+    TypeOfWeapon(k, *v) for k, v in json.load(
+        open('weapons/weapons_types/list_of_types.json', "r", encoding="utf-8")).items()
 ]
 enemies = [
     Character(choice(enemy_names)),
